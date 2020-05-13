@@ -1,0 +1,11 @@
+[Unit]
+Description= Logs & config monitor %I
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/sagittarius-client
+ExecStart=/var/www/sagittarius/sagittarius-client
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

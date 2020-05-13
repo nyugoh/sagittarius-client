@@ -1,0 +1,7 @@
+.idea
+tmp/
+build/
+bind_*
+windows.syso
+resources
+output
