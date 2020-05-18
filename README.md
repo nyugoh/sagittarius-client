@@ -1,4 +1,6 @@
 # Sagittarius client :sagittarius:
+![Go](https://github.com/nyugoh/sagittarius-client/workflows/Go/badge.svg)
+
 A [sagittarius](https://github.com/nyugoh/sagittarius) client to monitor, collect and send log files to a central repository.
 
 ## Todo
