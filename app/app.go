@@ -6,6 +6,7 @@ import (
 	io "github.com/googollee/go-socket.io"
 	"github.com/joho/godotenv"
 	"github.com/nyugoh/sagittarius-client/app/api"
+	"github.com/nyugoh/sagittarius-client/cmd/exporter"
 	"github.com/nyugoh/sagittarius-client/utils"
 	"log"
 	"os"
@@ -107,6 +108,11 @@ func Run() {
 	go app.SocketServer.Serve()
 	defer app.SocketServer.Close()
 
+	app.Login()
+	app.Folders = exporter.StartMonitor()
+
+	utils.Log("App folders:", app.Folders)
+
 	utils.Log("Starting app...")
 	utils.Log(fmt.Sprintf("Magic brewing on port %s", app.Port))
 	if err := r.Run(app.Port); err != nil {
@@ -119,5 +125,12 @@ func initRoutes() {
 	r.Use(utils.MetricsMonitor())
 
 	r.GET("/", app.Index)
+	r.GET("/logs", app.ListFolders)
+	r.GET("/read", app.ReadLog)
+
+	/*authRouter := r.Group("/auth")
+	{
+		authRouter.GET("/login", app.Login)
+	}*/
 
 }

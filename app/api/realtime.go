@@ -16,11 +16,6 @@ func (app *App) IOServer() {
 		return nil
 	})
 
-	app.SocketServer.OnEvent("/", "stock-update", func(s io.Conn, msg string) {
-		fmt.Println("Notice :", msg)
-		s.Emit(msg)
-	})
-
 	app.SocketServer.OnEvent("/", "connection-ping", func(s io.Conn, msg string) {
 		fmt.Println("Ping from:", msg)
 		s.Emit(msg)
