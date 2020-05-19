@@ -9,6 +9,7 @@ import (
 	"github.com/nyugoh/sagittarius-client/cmd/exporter"
 	"github.com/nyugoh/sagittarius-client/utils"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -83,9 +84,27 @@ func init() {
 
 }
 
+// CORS Middleware
+func CORS(c *gin.Context) {
+	sagServer := os.Getenv("SAG_SERVER")
+	c.Header("Access-Control-Allow-Origin", sagServer)
+	c.Header("Access-Control-Allow-Methods", "GET, OPTIONS")
+	c.Header("Access-Control-Allow-Headers", "*")
+	c.Header("Content-Type", "application/json")
+
+	// Second, we handle the OPTIONS problem
+	if c.Request.Method != "OPTIONS" {
+		c.Next()
+	} else {
+		c.AbortWithStatus(http.StatusOK)
+	}
+}
+
 func Run() {
 	// Make a gin router
 	r = gin.Default()
+
+	r.Use(CORS)
 
 	// Register all routes
 	initRoutes()
